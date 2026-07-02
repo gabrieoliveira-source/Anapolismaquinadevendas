@@ -1,0 +1,418 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Oficina Máquina de Vendas — Anápolis 16/07/2026</title>
+<meta name="description" content="Aprenda a gerar demanda infinita implementando a Máquina de Vendas na sua empresa. Workshop presencial em Anápolis, 16/07/2026, com Hugo Roberto." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          background: 'hsl(222 65% 5%)',
+          card: 'hsl(222 50% 8%)',
+          primary: 'hsl(220 95% 58%)',
+          primaryglow: 'hsl(215 100% 70%)',
+          primarydeep: 'hsl(224 80% 42%)',
+          muted: 'hsl(215 25% 70%)',
+          bordercol: 'hsl(222 40% 18%)',
+        },
+        fontFamily: {
+          display: ['Anton', 'Impact', 'sans-serif'],
+          body: ['Inter', 'system-ui', 'sans-serif'],
+        }
+      }
+    }
+  }
+</script>
+
+<style>
+  html { scroll-behavior: smooth; }
+  body {
+    background: hsl(222 65% 5%);
+    color: hsl(210 40% 98%);
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+  h1, h2, h3, .display {
+    font-family: 'Anton', Impact, sans-serif;
+    letter-spacing: 0.01em;
+  }
+  .gradient-hero {
+    background: linear-gradient(135deg, hsl(222 80% 6%) 0%, hsl(224 75% 12%) 50%, hsl(220 80% 18%) 100%);
+  }
+  .gradient-primary {
+    background: linear-gradient(135deg, hsl(224 80% 42%) 0%, hsl(220 95% 58%) 50%, hsl(215 100% 70%) 100%);
+  }
+  .gradient-card {
+    background: linear-gradient(180deg, hsl(222 50% 10%) 0%, hsl(222 60% 6%) 100%);
+  }
+  .gradient-radial {
+    background: radial-gradient(ellipse at center, hsl(220 90% 25% / .4) 0%, transparent 70%);
+  }
+  .shadow-glow { box-shadow: 0 0 60px hsl(220 95% 58% / .5); }
+  .shadow-elegant { box-shadow: 0 20px 60px -10px hsl(220 95% 30% / .5); }
+  .cta-btn {
+    background: linear-gradient(135deg, hsl(224 80% 42%) 0%, hsl(220 95% 58%) 50%, hsl(215 100% 70%) 100%);
+    transition: transform .2s ease, box-shadow .2s ease;
+  }
+  .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 0 60px hsl(220 95% 58% / .5); }
+  .badge {
+    background: hsl(222 45% 12%);
+    border: 1px solid hsl(222 40% 18%);
+  }
+  .field {
+    background: hsl(222 40% 14%);
+    border: 1px solid hsl(222 40% 18%);
+  }
+  .field:focus { outline: none; border-color: hsl(220 95% 58%); }
+  .card-block {
+    background: linear-gradient(180deg, hsl(222 50% 10%) 0%, hsl(222 60% 6%) 100%);
+    border: 1px solid hsl(222 40% 18%);
+  }
+</style>
+</head>
+
+<body class="antialiased">
+
+<!-- ===================== TOPBAR COM RELÓGIO ===================== -->
+<header class="sticky top-0 z-50 bg-background/90 backdrop-blur border-b border-bordercol/40">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between gap-3">
+    <img src="assets/huven-icon.png" alt="Huven" class="h-10 sm:h-12 w-auto object-contain shrink-0" />
+
+    <div class="flex items-center gap-1.5 sm:gap-3" id="countdown">
+      <div class="text-center min-w-[38px] sm:min-w-[52px]">
+        <div class="text-lg sm:text-2xl font-display leading-none" id="cd-days">00</div>
+        <div class="text-[8px] sm:text-[10px] tracking-widest text-muted">DIAS</div>
+      </div>
+      <div class="text-lg sm:text-2xl text-muted leading-none">:</div>
+      <div class="text-center min-w-[38px] sm:min-w-[52px]">
+        <div class="text-lg sm:text-2xl font-display leading-none" id="cd-hours">00</div>
+        <div class="text-[8px] sm:text-[10px] tracking-widest text-muted">HORAS</div>
+      </div>
+      <div class="text-lg sm:text-2xl text-muted leading-none">:</div>
+      <div class="text-center min-w-[38px] sm:min-w-[52px]">
+        <div class="text-lg sm:text-2xl font-display leading-none" id="cd-min">00</div>
+        <div class="text-[8px] sm:text-[10px] tracking-widest text-muted">MIN</div>
+      </div>
+      <div class="text-lg sm:text-2xl text-muted leading-none">:</div>
+      <div class="text-center min-w-[38px] sm:min-w-[52px]">
+        <div class="text-lg sm:text-2xl font-display leading-none" id="cd-sec">00</div>
+        <div class="text-[8px] sm:text-[10px] tracking-widest text-muted">SEG</div>
+      </div>
+    </div>
+
+    <a href="#garanta-vaga" class="cta-btn hidden sm:inline-block text-white text-sm font-bold uppercase tracking-wide px-5 py-2.5 rounded-lg shrink-0">
+      Quero começar agora
+    </a>
+  </div>
+</header>
+
+<!-- ===================== HERO / FORM ===================== -->
+<section class="relative overflow-hidden gradient-hero">
+  <div class="absolute inset-0 bg-cover bg-center opacity-25" style="background-image:url('assets/hugo-palco-mdv.png')"></div>
+  <div class="absolute inset-0" style="background: linear-gradient(90deg, hsl(222 65% 5%) 0%, hsl(222 65% 5% / .75) 30%, hsl(222 65% 5% / .35) 60%, hsl(222 65% 5% / .15) 100%), linear-gradient(0deg, hsl(222 65% 5%) 0%, hsl(222 65% 5% / .2) 25%, hsl(222 65% 5% / .2) 80%, hsl(222 65% 5% / .85) 100%);"></div>
+  <div class="absolute inset-0 gradient-radial"></div>
+
+  <div class="relative max-w-7xl mx-auto px-6 pt-14 pb-16 lg:pt-20 lg:pb-24 grid lg:grid-cols-2 gap-12 items-center">
+
+    <div>
+      <span class="badge inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold tracking-wider text-muted mb-6">
+        WORKSHOP PRESENCIAL · ANÁPOLIS
+      </span>
+
+      <p class="uppercase text-sm font-bold tracking-[0.2em] text-primaryglow mb-3">ANÁPOLIS · GO</p>
+
+      <h1 class="text-4xl sm:text-5xl lg:text-6xl leading-[1.05] uppercase mb-6">
+        Aprenda a gerar<br/>
+        <span class="text-primaryglow">demanda infinita</span><br/>
+        implementando a<br/>
+        máquina de vendas
+      </h1>
+
+      <p class="text-lg text-muted font-body mb-8 max-w-xl">na sua empresa para bater recorde de faturamento.</p>
+
+      <div class="space-y-2 mb-8 font-body text-sm">
+        <p class="text-muted/70 line-through decoration-red-500/60">Empresas que dependem de indicação sobrevivem</p>
+        <p class="text-white font-semibold">Empresas que operam por processo crescem com previsibilidade</p>
+        <p class="text-primaryglow font-semibold">Para quem decidiu assumir o controle da receita</p>
+      </div>
+
+      <a href="#garanta-vaga" class="cta-btn inline-block text-white font-bold uppercase tracking-wide px-8 py-4 rounded-xl mb-10">
+        Quero começar agora
+      </a>
+
+      <div class="grid grid-cols-3 gap-4 max-w-lg font-body text-sm">
+        <div>
+          <p class="text-muted text-xs tracking-widest mb-1">DADOS</p>
+          <p class="font-semibold">16/07/2026</p>
+        </div>
+        <div>
+          <p class="text-muted text-xs tracking-widest mb-1">LOCAL</p>
+          <p class="font-semibold">Anápolis, GO</p>
+        </div>
+        <div>
+          <p class="text-muted text-xs tracking-widest mb-1">HORÁRIO</p>
+          <p class="font-semibold">14h às 20h</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="relative">
+      <img src="assets/hugo-palco-mdv.png" alt="Hugo Roberto no palco" class="rounded-2xl shadow-elegant w-full hidden sm:block" />
+      <img src="assets/hugo-palco-mdv.png" alt="Hugo Roberto no palco" class="rounded-2xl shadow-elegant w-full sm:hidden" />
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FORMULÁRIO ===================== -->
+<section id="garanta-vaga" class="relative py-20 lg:py-28">
+  <div class="max-w-xl mx-auto px-6">
+    <div class="text-center mb-10">
+      <h2 class="text-3xl sm:text-4xl uppercase mb-3">Garanta sua vaga</h2>
+      <p class="text-primaryglow font-body font-semibold">Vagas limitadas — Resta(m) <span id="vagas-count">87</span> ingressos.</p>
+    </div>
+
+    <form class="card-block rounded-2xl p-6 sm:p-8 space-y-5" onsubmit="event.preventDefault(); alert('Formulário de demonstração — conecte a um backend / webhook para captar os leads de verdade.');">
+      <div>
+        <label class="block text-xs font-semibold tracking-wider text-muted mb-2">NOME COMPLETO *</label>
+        <input required type="text" class="field w-full rounded-lg px-4 py-3 text-sm" placeholder="Seu nome completo" />
+      </div>
+      <div>
+        <label class="block text-xs font-semibold tracking-wider text-muted mb-2">E-MAIL *</label>
+        <input required type="email" class="field w-full rounded-lg px-4 py-3 text-sm" placeholder="seu@email.com" />
+      </div>
+      <div>
+        <label class="block text-xs font-semibold tracking-wider text-muted mb-2">WHATSAPP *</label>
+        <input required type="tel" class="field w-full rounded-lg px-4 py-3 text-sm" placeholder="(62) 90000-0000" />
+      </div>
+      <div>
+        <label class="block text-xs font-semibold tracking-wider text-muted mb-2">Nº DE FUNCIONÁRIOS</label>
+        <select class="field w-full rounded-lg px-4 py-3 text-sm">
+          <option>Selecione</option>
+          <option>1 a 5</option>
+          <option>5 a 10</option>
+          <option>10 a 20</option>
+          <option>20 a 50</option>
+          <option>Mais de 50</option>
+        </select>
+      </div>
+      <div>
+        <label class="block text-xs font-semibold tracking-wider text-muted mb-2">FATURAMENTO *</label>
+        <select required class="field w-full rounded-lg px-4 py-3 text-sm">
+          <option value="">Selecione</option>
+          <option>Até R$ 10 mil</option>
+          <option>R$ 10 mil a R$ 30 mil</option>
+          <option>R$ 30 mil a R$ 50 mil</option>
+          <option>R$ 50 mil a R$ 100 mil</option>
+          <option>R$ 100 mil a R$ 300 mil</option>
+          <option>R$ 300 mil a R$ 1 milhão</option>
+          <option>Acima de R$ 1 milhão</option>
+        </select>
+      </div>
+
+      <button type="submit" class="cta-btn w-full text-white font-bold uppercase tracking-wide px-8 py-4 rounded-xl">
+        Quero meu ingresso
+      </button>
+
+      <p class="text-center text-xs text-muted">Seus dados estão seguros. Sem spam.</p>
+    </form>
+  </div>
+</section>
+
+<!-- ===================== O QUE VOCÊ VAI APRENDER ===================== -->
+<section class="relative py-16 lg:py-24 overflow-hidden">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="text-center max-w-2xl mx-auto mb-14">
+      <p class="uppercase text-xs font-bold tracking-[0.2em] text-primaryglow mb-3">Oficina Máquina de Vendas</p>
+      <h2 class="text-3xl sm:text-4xl uppercase mb-4">O que você vai aprender</h2>
+      <p class="text-muted font-body">Um dia inteiro de imersão prática para sair com um plano detalhado dos próximos 120 dias.</p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-5 max-w-4xl mx-auto mb-12">
+      <div class="card-block rounded-xl p-5 font-body text-sm font-medium">Ajustar onde sua máquina está travando</div>
+      <div class="card-block rounded-xl p-5 font-body text-sm font-medium">Ativar demanda diária (sem depender da indicação)</div>
+      <div class="card-block rounded-xl p-5 font-body text-sm font-medium">Estruturar conversas intencionais que avançam</div>
+      <div class="card-block rounded-xl p-5 font-body text-sm font-medium">Criar uma oferta que fecha sem briga</div>
+      <div class="card-block rounded-xl p-5 font-body text-sm font-medium md:col-span-2">Estabelecer o ritmo semanal de contratos</div>
+    </div>
+
+    <div class="text-center">
+      <a href="#garanta-vaga" class="cta-btn inline-block text-white font-bold uppercase tracking-wide px-8 py-4 rounded-xl">Quero começar agora</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== ÚLTIMA EDIÇÃO ===================== -->
+<section class="relative py-20 lg:py-28 overflow-hidden">
+  <img src="assets/hugo-palco-mdv.png" alt="Hugo Roberto, palestrante da Máquina de Vendas" class="absolute inset-0 w-full h-full object-cover opacity-25" />
+  <div class="absolute inset-0 gradient-hero opacity-90"></div>
+
+  <div class="relative max-w-4xl mx-auto px-6 text-center">
+    <p class="uppercase text-xs font-bold tracking-[0.2em] text-primaryglow mb-3">Veja como foi</p>
+    <h2 class="text-3xl sm:text-4xl uppercase mb-4">A energia da última edição</h2>
+    <p class="text-muted font-body mb-10 max-w-xl mx-auto">Mais de centenas de empresários reunidos em um único dia de tradição prática.</p>
+
+    <blockquote class="text-2xl sm:text-3xl font-display uppercase text-primaryglow mb-10">
+      "Você não sairá com achismos."
+    </blockquote>
+
+    <h3 class="text-2xl sm:text-3xl uppercase mb-6 leading-tight">
+      Você vai sair com o plano<br/>dos próximos 120 dias.
+    </h3>
+
+    <div class="flex flex-wrap justify-center gap-3 mb-10">
+      <span class="badge px-4 py-2 rounded-full text-xs font-bold tracking-wider">SEM ACHISMO</span>
+      <span class="badge px-4 py-2 rounded-full text-xs font-bold tracking-wider">SEM "VAMOS VER"</span>
+    </div>
+
+    <a href="#garanta-vaga" class="cta-btn inline-block text-white font-bold uppercase tracking-wide px-8 py-4 rounded-xl">Quero começar agora</a>
+  </div>
+</section>
+
+<!-- ===================== PARA QUEM É ===================== -->
+<section class="relative pt-20 lg:pt-28 pb-10">
+  <div class="max-w-4xl mx-auto px-6">
+    <h2 class="text-3xl sm:text-4xl uppercase text-center mb-12">Este workshop é para<br/>todos que:</h2>
+
+    <div class="grid sm:grid-cols-2 gap-5 mb-12 font-body text-sm">
+      <div class="card-block rounded-xl p-5">Já faturam, mas sabem que podem mais</div>
+      <div class="card-block rounded-xl p-5">Sentem que o crescimento não acompanha o esforço</div>
+      <div class="card-block rounded-xl p-5">Percebem que a operação depende deles o tempo todo</div>
+      <div class="card-block rounded-xl p-5">Não aceitam mais viver na sorte da indicação</div>
+    </div>
+
+    <div class="text-center">
+      <a href="#garanta-vaga" class="cta-btn inline-block text-white font-bold uppercase tracking-wide px-8 py-4 rounded-xl">Quero começar agora</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== PALESTRANTE ===================== -->
+<section class="relative pb-24 lg:pb-32 pt-20">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="text-center max-w-2xl mx-auto mb-14">
+      <p class="uppercase text-xs font-bold tracking-[0.2em] text-primaryglow mb-3">Palestrante</p>
+      <h2 class="text-3xl sm:text-4xl uppercase">Quem comanda o palco da<br/>máquina de vendas ao vivo</h2>
+    </div>
+
+    <div class="grid lg:grid-cols-2 gap-12 items-center">
+      <img src="assets/hugo-palco-mdv.png" alt="Hugo Roberto no palco da Máquina de Vendas" class="rounded-2xl shadow-elegant w-full" />
+
+      <div>
+        <span class="badge inline-block px-4 py-1.5 rounded-full text-xs font-bold tracking-wider text-primaryglow mb-4">PALESTRANTE OFICIAL</span>
+        <h3 class="text-3xl uppercase mb-4">Hugo Roberto</h3>
+        <p class="text-muted font-body mb-3">Criador da Máquina de Vendas e especialista em crescimento para negócios físicos e digitais.</p>
+        <p class="text-muted font-body mb-8">Hugo Roberto é sócio da Catapulta Digital, ecossistema focado em transformar empresas comuns em negócios grandes, lucrativos e previsíveis. Já ajudou milhares de empresários a implantarem sistemas reais de marketing e vendas que entregam previsibilidade mês após mês.</p>
+
+        <div class="grid grid-cols-3 gap-4 mb-8">
+          <div class="card-block rounded-xl p-4 text-center">
+            <p class="text-2xl font-display text-primaryglow">+10 mil</p>
+            <p class="text-[10px] tracking-widest text-muted mt-1">EMPRESÁRIOS TREINADOS</p>
+          </div>
+          <div class="card-block rounded-xl p-4 text-center">
+            <p class="text-2xl font-display text-primaryglow">120</p>
+            <p class="text-[10px] tracking-widest text-muted mt-1">DIAS DE PLANO</p>
+          </div>
+          <div class="card-block rounded-xl p-4 text-center">
+            <p class="text-2xl font-display text-primaryglow">92%</p>
+            <p class="text-[10px] tracking-widest text-muted mt-1">APLICAM EM 30 DIAS</p>
+          </div>
+        </div>
+
+        <a href="#garanta-vaga" class="cta-btn inline-block text-white font-bold uppercase tracking-wide px-8 py-4 rounded-xl">Quero começar agora</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== RECONHECIMENTO ===================== -->
+<section class="relative py-20 lg:py-28 border-t border-bordercol/40">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="text-center max-w-2xl mx-auto mb-14">
+      <p class="uppercase text-xs font-bold tracking-[0.2em] text-primaryglow mb-3">Reconhecimento</p>
+      <h2 class="text-3xl sm:text-4xl uppercase mb-4">Reconhecido pelos principais<br/>nomes do mercado</h2>
+      <p class="text-muted font-body">O método Máquina de Vendas é aplicado por empresários de todo o Brasil e validado por referências do empreendedorismo nacional.</p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-8">
+      <div class="card-block rounded-2xl overflow-hidden">
+        <img src="assets/hugo-alfredo-backstage.png" alt="Hugo Roberto com Alfredo Soares, fundador do G4 Educação" class="w-full h-64 object-cover" />
+        <div class="p-6">
+          <h3 class="text-lg font-display uppercase mb-2">Hugo Roberto × Alfredo Soares</h3>
+          <p class="text-muted font-body text-sm">Fundador do G4 Educação e referência nacional em vendas e empreendedorismo.</p>
+        </div>
+      </div>
+      <div class="card-block rounded-2xl overflow-hidden">
+        <img src="assets/hugo-flavio-pb.png" alt="Hugo Roberto com Flávio Augusto, fundador da Wise Up" class="w-full h-64 object-cover" />
+        <div class="p-6">
+          <h3 class="text-lg font-display uppercase mb-2">Hugo Roberto × Flávio Augusto</h3>
+          <p class="text-muted font-body text-sm">Fundador da Wise Up e um dos maiores empreendedores do Brasil.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CASES ===================== -->
+<section class="relative py-20 lg:py-28 overflow-hidden">
+  <img src="assets/hugo-palco-marcas.png" alt="" class="absolute inset-0 w-full h-full object-cover opacity-20" />
+  <div class="absolute inset-0 gradient-hero opacity-90"></div>
+
+  <div class="relative max-w-4xl mx-auto px-6 text-center">
+    <h2 class="text-3xl sm:text-4xl uppercase mb-6">Cases de marcas que<br/>viraram referência</h2>
+    <p class="text-muted font-body mb-14 max-w-2xl mx-auto">Você vai ver, ao vivo, como gigantes como Vivara, Localiza e outros nomes do mercado constroem máquinas comerciais que entregam resultado todo mês — e como aplicar a mesma lógica no seu negócio.</p>
+
+    <div class="grid grid-cols-3 gap-6 max-w-xl mx-auto">
+      <div>
+        <p class="text-3xl sm:text-4xl font-display text-primaryglow">+10 mil</p>
+        <p class="text-[10px] tracking-widest text-muted mt-2">EMPRESÁRIOS</p>
+      </div>
+      <div>
+        <p class="text-3xl sm:text-4xl font-display text-primaryglow">+50</p>
+        <p class="text-[10px] tracking-widest text-muted mt-2">CIDADES</p>
+      </div>
+      <div>
+        <p class="text-3xl sm:text-4xl font-display text-primaryglow">92%</p>
+        <p class="text-[10px] tracking-widest text-muted mt-2">APLICAM EM 30D</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="py-10 border-t border-bordercol/40 text-center font-body">
+  <p class="text-sm text-muted mb-2">Anápolis · 16 de julho de 2026</p>
+  <p class="text-xs text-muted/70">© Direitos Autorais 2026. Todos os direitos reservados. · <a href="#" class="underline hover:text-white">Política de privacidade</a> · <a href="#" class="underline hover:text-white">Termos de uso</a></p>
+</footer>
+
+<script>
+  // Countdown até 16/07/2026 14:00 (horário de Brasília)
+  const target = new Date("2026-07-16T14:00:00-03:00").getTime();
+
+  function updateCountdown() {
+    const now = new Date().getTime();
+    const diff = Math.max(0, target - now);
+
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+    document.getElementById('cd-days').textContent = String(days).padStart(2, '0');
+    document.getElementById('cd-hours').textContent = String(hours).padStart(2, '0');
+    document.getElementById('cd-min').textContent = String(minutes).padStart(2, '0');
+    document.getElementById('cd-sec').textContent = String(seconds).padStart(2, '0');
+  }
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+</script>
+
+</body>
+</html>
